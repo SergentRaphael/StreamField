@@ -53,18 +53,18 @@ jobs:
           cache: true
       - name: Clé de signature fixe (mises à jour sans désinstaller)
         env:
-          KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          PASS: ${{ secrets.ANDROID_KEY_PASS }}
         run: |
-          if [ -n "$KEYSTORE" ]; then
+          if [ -n "$PASS" ]; then
             mkdir -p ~/.android
-            echo "$KEYSTORE" | base64 -d > ~/.android/debug.keystore
+            openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in tool/android-key.enc -out ~/.android/debug.keystore -pass env:PASS
             echo "Clé fixe installée."
           else
-            echo "Pas de clé fixe : signature temporaire."
+            echo "::warning::Secret ANDROID_KEY_PASS absent : signature temporaire (il faudra désinstaller avant chaque mise à jour)."
           fi
       - run: bash .github/run.sh flutter pub get
       - run: bash .github/run.sh dart run tool/setup.dart
-      - run: bash .github/run.sh flutter build apk --release --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
+      - run: bash .github/run.sh flutter build apk --release --target-platform android-arm,android-arm64 --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
       - run: |
           mkdir -p dist
           cp build/app/outputs/flutter-apk/app-release.apk dist/StreamField-Android.apk
