@@ -8,7 +8,9 @@ class M3uWriter {
       b.write('#EXTINF:-1');
       if (c.tvgId != null) b.write(' tvg-id="${_q(c.tvgId!)}"');
       if (c.logo != null) b.write(' tvg-logo="${_q(c.logo!)}"');
-      b.write(' group-title="${_q(c.group)}",${c.name.replaceAll('\n', ' ')}\n');
+      b.write(' group-title="${_q(c.group)}"');
+      if (c.category != null) b.write(' category="${_q(c.category!)}"');
+      b.write(',${c.name.replaceAll('\n', ' ')}\n');
       c.headers.forEach((key, value) {
         switch (key.toLowerCase()) {
           case 'user-agent':

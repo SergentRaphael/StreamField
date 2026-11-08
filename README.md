@@ -40,6 +40,9 @@ Puis sur l'iPhone : Réglages → Général → VPN et gestion de l'appareil →
 et Réglages → Confidentialité et sécurité → **Mode développeur** (iOS 16 et plus).
 
 ## ✨ Fonctions
+- **TV du monde** : plus de 11 000 chaînes gratuites (sources iptv-org et Free-TV), rangées **par pays** dans la
+  colonne de gauche, les plus connues en haut. Mis à jour chaque jour automatiquement.
+  Pour changer l'ordre des grandes chaînes d'un pays : modifie `tool/catalog/populaires.txt`.
 - **Compte StreamField** (icône 👤) : connecte-toi sur chaque appareil pour retrouver les mêmes playlists et favoris.
 - **Playlists** : lien M3U, compte **Xtream** (serveur + identifiant + mot de passe), fichier `.m3u` ou liste texte.
 - **Navigation** : catégories, recherche, ★ favoris, chaînes récentes.
@@ -79,7 +82,7 @@ lib/
   services/xtream_client.dart    connexion Xtream Codes
   services/stream_checker.dart   testeur de liens
   services/storage.dart          sauvegarde sur l'appareil
-assets/playlists/                playlists incluses
+tool/catalog/                    catalogue « TV du monde » (classement : populaires.txt)
 supabase/schema.sql              table des comptes (à coller une fois dans Supabase)
 tool/setup.dart                  préparation automatique des plateformes
 ```

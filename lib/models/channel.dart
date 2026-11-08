@@ -7,6 +7,7 @@ class Channel {
     this.group = 'Sans catégorie',
     this.logo,
     this.tvgId,
+    this.category,
     this.headers = const <String, String>{},
     this.status = StreamStatus.unknown,
   });
@@ -16,6 +17,7 @@ class Channel {
   final String group;
   final String? logo;
   final String? tvgId; // pour relier la chaîne au guide TV (EPG) plus tard
+  final String? category; // Info, Sport, Cinéma…
   final Map<String, String> headers; // User-Agent, Referer… exigés par certains flux
   StreamStatus status;
 }

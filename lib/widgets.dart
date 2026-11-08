@@ -98,7 +98,7 @@ class ChannelTile extends StatelessWidget {
       leading: ChannelLogo(url: channel.logo),
       title: Text(channel.name, maxLines: 1, overflow: TextOverflow.ellipsis),
       subtitle: Text(
-        channel.group,
+        channel.category == null ? channel.group : '${channel.category}  ·  ${channel.group}',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: const TextStyle(color: kMuted, fontSize: 12),

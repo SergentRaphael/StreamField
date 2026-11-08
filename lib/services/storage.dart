@@ -85,6 +85,12 @@ class Store {
     return utf8.decode(await f.readAsBytes(), allowMalformed: true);
   }
 
+  Future<Duration> cacheAge(String id) async {
+    final f = _cache(id);
+    if (!await f.exists()) return const Duration(days: 9999);
+    return DateTime.now().difference(await f.lastModified());
+  }
+
   Future<void> writeCache(String id, String content) =>
       _cache(id).writeAsString(content, flush: true);
 

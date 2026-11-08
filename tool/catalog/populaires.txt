@@ -1,0 +1,249 @@
+# Chaînes les plus connues, placées en haut de leur pays (dans cet ordre).
+# Une chaîne par ligne, le nom tel qu'il apparaît dans les listes. [XX] = code du pays.
+# Les autres chaînes sont classées automatiquement par notoriété.
+
+[FR]
+TF1
+France 2
+France 3
+Canal+
+France 5
+M6
+Arte
+W9
+TMC
+TFX
+NRJ 12
+LCP
+Public Sénat
+France 4
+BFM TV
+CNews
+CStar
+Gulli
+TF1 Séries Films
+L'Équipe
+6ter
+RMC Story
+RMC Découverte
+RMC Life
+Chérie 25
+LCI
+franceinfo
+France 24
+TV5Monde | TV5Monde France Belgium Switzerland Monaco
+Euronews French | Euronews Français
+BFM Business
+BFM Paris
+Paris Première
+Téva
+Novo19
+T18
+
+[BE]
+La Une
+Tipik
+La Trois
+RTL TVI | RTL-TVI
+Club RTL
+Plug RTL
+AB3
+LN24
+VRT 1
+Canvas
+Ketnet
+VTM
+Play4
+BX1
+
+[CH]
+RTS 1 | RTS Un
+RTS 2 | RTS Deux
+SRF 1
+SRF zwei
+SRF info
+RSI LA 1
+RSI LA 2
+Léman Bleu
+
+[CA]
+ICI Radio-Canada Télé | Ici Radio-Canada Tele
+TVA
+Noovo
+Télé-Québec
+ICI RDI
+LCN
+CBC
+CTV
+Global
+CBC News Network
+CTV News Channel
+CPAC
+Citytv
+
+[LU]
+RTL Télé Lëtzebuerg
+RTL Zwee
+
+[MC]
+Monaco Info
+
+[MA]
+Al Aoula | Al Aoula Inter
+2M
+Arryadia
+Athaqafia
+Al Maghribia
+Assadissa
+Tamazight
+Medi 1 TV | Medi1 TV | Medi1TV Afrique | Medi1TV Arabic | Medi1TV Maghreb
+Laayoune TV
+
+[DZ]
+TV1 Algérie | TV1 | Elwatania TV
+Canal Algérie | TV2
+A3 | TV3
+TV4 Tamazight | TV4
+AL24 News
+Ennahar TV
+Echorouk TV
+El Bilad TV
+
+[TN]
+Wataniya 1 | El Watania 1
+Wataniya 2 | El Watania 2
+Hannibal TV
+Nessma
+Attessia TV
+El Hiwar Ettounsi
+
+[GB]
+BBC One
+BBC Two
+ITV1 | ITV 1
+Channel 4
+Channel 5
+BBC Three
+BBC Four
+ITV2
+E4
+BBC News
+Sky News
+GB News
+CBBC
+CBeebies
+Quest
+
+[US]
+ABC
+CBS
+NBC
+FOX
+PBS
+The CW
+CNN
+Fox News Channel | Fox News
+MSNBC
+ABC News Live
+CBS News
+NBC News NOW
+Bloomberg Television
+C-SPAN
+Newsmax
+NFL Channel
+CBS Sports HQ
+Fox Weather
+
+[DE]
+Das Erste | ARD
+ZDF
+RTL
+Sat.1
+ProSieben
+VOX
+kabel eins
+RTL Zwei
+3sat
+ZDFneo
+ZDFinfo
+tagesschau24
+phoenix
+KiKA
+n-tv
+WELT
+Super RTL
+DMAX
+
+[ES]
+La 1 | TVE La 1
+La 2
+Antena 3
+Cuatro
+Telecinco
+laSexta
+24 Horas
+Teledeporte
+Clan
+Neox
+Nova
+Mega
+FDF
+Energy
+TV3
+Telemadrid
+Canal Sur
+
+[IT]
+Rai 1
+Rai 2
+Rai 3
+Rete 4
+Canale 5
+Italia 1
+La7
+TV8
+Nove
+Rai News 24
+Rai Sport
+Rai 4
+Rai 5
+Rai Movie
+Rai Premium
+Rai Gulp
+Rai Yoyo
+Rai Storia
+Rai Scuola
+20 Mediaset
+Iris
+Cine34
+Focus
+Real Time
+DMAX
+Sky TG24
+TGCom24
+
+[PT]
+RTP1
+RTP2
+SIC
+TVI
+RTP3
+SIC Notícias
+CNN Portugal
+CMTV
+RTP Memória
+RTP África
+RTP Internacional
+
+[NL]
+NPO 1
+NPO 2
+NPO 3
+RTL 4
+RTL 5
+SBS6
+RTL 7
+Veronica
+NET5
+SBS9
+RTL 8

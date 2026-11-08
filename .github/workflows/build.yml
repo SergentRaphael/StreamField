@@ -7,6 +7,10 @@ name: Build StreamField
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "tool/catalog/**"
+      - ".github/workflows/catalog.yml"
+      - "README.md"
   workflow_dispatch:
 
 permissions:

@@ -46,7 +46,7 @@ Autre chaîne : http://1.2.3.4:8080/live/index.m3u8
   test('Export puis relecture : rien ne se perd', () {
     final original = parsePlaylist('''
 #EXTM3U
-#EXTINF:-1 tvg-logo="https://ex.com/l.png" group-title="Sport",Test
+#EXTINF:-1 tvg-logo="https://ex.com/l.png" group-title="Sport" category="Info",Test
 #EXTVLCOPT:http-referrer=https://ref.fr
 https://example.com/s.m3u8
 ''');
@@ -55,5 +55,6 @@ https://example.com/s.m3u8
     expect(again.single.group, 'Sport');
     expect(again.single.logo, 'https://ex.com/l.png');
     expect(again.single.headers['Referer'], 'https://ref.fr');
+    expect(again.single.category, 'Info');
   });
 }

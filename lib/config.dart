@@ -3,5 +3,7 @@
 // Cette clé est faite pour être dans l'app : les données restent protégées par les règles
 // de sécurité (RLS) de supabase/schema.sql. Ne jamais mettre la clé « secret » / « service_role ».
 // Laisser vide = l'app fonctionne normalement, sans comptes.
-const kSupabaseUrl = String.fromEnvironment('SUPABASE_URL', defaultValue: '');
-const kSupabaseKey = String.fromEnvironment('SUPABASE_KEY', defaultValue: '');
+const kSupabaseUrl = String.fromEnvironment('SUPABASE_URL',
+    defaultValue: 'https://fyqrsipwfkonfzmckpey.supabase.co');
+const kSupabaseKey = String.fromEnvironment('SUPABASE_KEY',
+    defaultValue: 'sb_publishable_qYQAszxnPatDTENp2UcUEA_l6nQIh3L');

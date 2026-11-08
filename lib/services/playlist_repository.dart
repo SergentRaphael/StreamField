@@ -22,31 +22,49 @@ class PlaylistRepository {
 
   final Store store;
 
-  /// Playlists ajoutées au premier lancement.
+  /// Catalogue « TV du monde » (iptv-org + Free-TV), regroupé par pays et classé
+  /// par notoriété, régénéré chaque jour par GitHub (tool/catalog/build_catalog.py).
+  static const catalogId = 'catalogue';
+  static const catalogUrl =
+      'https://raw.githubusercontent.com/SergentRaphael/StreamField/catalog/catalog.m3u';
+  static const _oldDefaultIds = {'sport-gratuit', 'fr-gratuit'};
+
+  static PlaylistSource catalog() => PlaylistSource(
+        id: catalogId,
+        name: 'TV du monde',
+        type: SourceType.m3uUrl,
+        url: catalogUrl,
+      );
+
   /// Avec --dart-define=STORE_BUILD=true (version App Store / Play Store),
   /// l'app démarre vide : l'utilisateur ajoute ses propres playlists.
-  static List<PlaylistSource> defaults() => const bool.fromEnvironment('STORE_BUILD')
-      ? []
-      : [
-        PlaylistSource(
-          id: 'sport-gratuit',
-          name: 'Sport gratuit',
-          type: SourceType.builtin,
-          url: 'assets/playlists/sport_gratuit.m3u',
-        ),
-        PlaylistSource(
-          id: 'fr-gratuit',
-          name: 'Chaînes FR gratuites',
-          type: SourceType.m3uUrl,
-          url: 'https://iptv-org.github.io/iptv/countries/fr.m3u',
-        ),
-      ];
+  static const storeBuild = bool.fromEnvironment('STORE_BUILD');
+
+  /// Playlists ajoutées au premier lancement.
+  static List<PlaylistSource> defaults() => storeBuild ? [] : [catalog()];
+
+  /// Remplace les anciennes listes gratuites par le catalogue (une seule fois).
+  static List<PlaylistSource>? migrate(List<PlaylistSource> sources) {
+    if (!sources.any((s) => _oldDefaultIds.contains(s.id))) return null;
+    final kept = sources.where((s) => !_oldDefaultIds.contains(s.id)).toList();
+    if (!storeBuild && !kept.any((s) => s.id == catalogId)) kept.insert(0, catalog());
+    return kept;
+  }
 
   /// Charge une playlist : depuis le cache de l'appareil si possible,
   /// sinon (ou si [refresh]) depuis sa source.
   Future<List<Channel>> load(PlaylistSource s, {bool refresh = false}) async {
+    final online = s.type == SourceType.m3uUrl || s.type == SourceType.xtream;
     final useCache = !refresh || s.type == SourceType.file;
     String? text = useCache ? await store.readCache(s.id) : null;
+    if (text != null && online && !refresh && await store.cacheAge(s.id) > const Duration(days: 1)) {
+      // Liste de plus d'un jour : on la met à jour, en gardant l'ancienne si le réseau ne répond pas.
+      try {
+        final fresh = await _fetch(s);
+        await store.writeCache(s.id, fresh);
+        text = fresh;
+      } catch (_) {}
+    }
     if (text == null) {
       text = await _fetch(s);
       await store.writeCache(s.id, text);

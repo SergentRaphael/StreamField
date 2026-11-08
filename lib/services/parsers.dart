@@ -77,6 +77,7 @@ class M3uParser {
         final group = a['group-title'];
         final logo = a['tvg-logo'];
         final tvgId = a['tvg-id'];
+        final category = a['category'] ?? a['tvg-category'];
         out.add(Channel(
           name: (name != null && name.isNotEmpty)
               ? name
@@ -87,6 +88,7 @@ class M3uParser {
               : (extGroup ?? 'Sans catégorie'),
           logo: (logo != null && logo.isNotEmpty) ? logo : null,
           tvgId: (tvgId != null && tvgId.isNotEmpty) ? tvgId : null,
+          category: (category != null && category.isNotEmpty) ? category : null,
           headers: {...headers, ...extra},
         ));
         attrs = null;

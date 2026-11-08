@@ -82,6 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
         await widget.account.sync().timeout(const Duration(seconds: 8));
       } catch (_) {}
     }
+    final migrated = PlaylistRepository.migrate(_store.sources);
+    if (migrated != null) {
+      await _store.saveSources(migrated);
+      if (!migrated.any((s) => s.id == _store.activeId) && migrated.isNotEmpty) {
+        await _store.setActiveId(migrated.first.id);
+      }
+    }
     _favorites = _store.favorites;
     _sources = _store.sources;
     final active = _sources.where((s) => s.id == _store.activeId).firstOrNull ??
