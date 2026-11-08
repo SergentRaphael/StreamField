@@ -20,8 +20,26 @@ env:
   BUILD_NAME: 1.0.${{ github.run_number }}
   BUILD_NUMBER: ${{ github.run_number }}
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter --version
+      - run: bash .github/run.sh flutter pub get
+      - run: bash .github/run.sh flutter analyze --no-fatal-infos --no-fatal-warnings
+      - run: bash .github/run.sh flutter test
+
   android:
+    needs: check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,10 +62,9 @@ jobs:
           else
             echo "Pas de clé fixe : signature temporaire."
           fi
-      - run: flutter pub get
-      - run: dart run tool/setup.dart
-      - run: flutter test
-      - run: flutter build apk --release --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
+      - run: bash .github/run.sh flutter pub get
+      - run: bash .github/run.sh dart run tool/setup.dart
+      - run: bash .github/run.sh flutter build apk --release --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
       - run: |
           mkdir -p dist
           cp build/app/outputs/flutter-apk/app-release.apk dist/StreamField-Android.apk
@@ -57,6 +74,7 @@ jobs:
           path: dist/
 
   windows:
+    needs: check
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -64,9 +82,9 @@ jobs:
         with:
           channel: stable
           cache: true
-      - run: flutter pub get
-      - run: dart run tool/setup.dart
-      - run: flutter build windows --release --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
+      - run: bash .github/run.sh flutter pub get
+      - run: bash .github/run.sh dart run tool/setup.dart
+      - run: bash .github/run.sh flutter build windows --release --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
       - shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path dist | Out-Null
@@ -77,6 +95,7 @@ jobs:
           path: dist/
 
   macos:
+    needs: check
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -84,9 +103,9 @@ jobs:
         with:
           channel: stable
           cache: true
-      - run: flutter pub get
-      - run: dart run tool/setup.dart
-      - run: flutter build macos --release --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
+      - run: bash .github/run.sh flutter pub get
+      - run: bash .github/run.sh dart run tool/setup.dart
+      - run: bash .github/run.sh flutter build macos --release --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
       - run: |
           mkdir -p dist
           ditto -c -k --keepParent build/macos/Build/Products/Release/StreamField.app dist/StreamField-Mac.zip
@@ -96,6 +115,7 @@ jobs:
           path: dist/
 
   ios:
+    needs: check
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -103,9 +123,9 @@ jobs:
         with:
           channel: stable
           cache: true
-      - run: flutter pub get
-      - run: dart run tool/setup.dart
-      - run: flutter build ios --release --no-codesign --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
+      - run: bash .github/run.sh flutter pub get
+      - run: bash .github/run.sh dart run tool/setup.dart
+      - run: bash .github/run.sh flutter build ios --release --no-codesign --build-name=${{ env.BUILD_NAME }} --build-number=${{ env.BUILD_NUMBER }}
       # .ipa non signé : Sideloadly le signe avec ton identifiant Apple au moment de l'installation.
       - run: |
           mkdir -p Payload dist
@@ -118,7 +138,7 @@ jobs:
 
   release:
     needs: [android, windows, macos, ios]
-    if: ${{ !cancelled() }}
+    if: ${{ !cancelled() && needs.android.result != 'skipped' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
