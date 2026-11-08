@@ -195,13 +195,6 @@ def main(out_dir):
             None, e['ua'], e['ref'], cid if cid in channels else None, bonus=1)
         in_freetv.add(key)
 
-    # 3) Liste perso (sport) : seulement les liens absents des deux sources
-    known_urls = {c[1] for lst in cands.values() for c in lst}
-    for e in extra:
-        if e['url'] not in known_urls:
-            add(('INT', 'n:' + norm(e['name'])), 'INT', e['name'], e['url'], None, 'sports',
-                ('Not 24/7',) if 'pas 24h' in e['name'] else ())
-
     # --- fusion des doublons (même nom dans le même pays) ---
     merged = {}
     for key in sorted(cands, key=lambda k: (meta[k]['id'] is None, str(k))):
@@ -257,6 +250,17 @@ def main(out_dir):
         return (1, 0, unicodedata.normalize('NFKD', fr.get(cc, cc)).encode('ascii', 'ignore').decode().lower())
 
     lines, total, summary = ['#EXTM3U'], 0, []
+
+    # Ta liste perso : TOUS ses liens, tels quels et dans son ordre, en tête de la colonne de gauche.
+    mine = '⚽ Ma liste sport'
+    for e in extra:
+        attrs = f'group-title="{mine}" category="Sport"'
+        if e['attrs'].get('tvg-logo'):
+            attrs += f' tvg-logo="{e["attrs"]["tvg-logo"]}"'
+        lines.append(f'#EXTINF:-1 {attrs},{e["name"].replace(",", " ")}')
+        lines.append(e['url'])
+        total += 1
+    summary.append((mine, len(extra), [e['name'] for e in extra[:6]]))
     for cc in sorted(entries, key=sort_key):
         group = country_label(cc).replace('"', "'")
         items = sorted(entries[cc], key=lambda e: e[:3])
