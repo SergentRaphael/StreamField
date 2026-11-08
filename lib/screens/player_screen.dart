@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
-import 'package:window_manager/window_manager.dart';
 
 import '../models/channel.dart';
 import '../platform.dart';
@@ -103,7 +102,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _currentItemFocus.dispose();
     _panelScroll?.dispose();
     if (isMobile) SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    if (_fullscreen) windowManager.setFullScreen(false);
+    if (_fullscreen) defaultExitNativeFullscreen();
     super.dispose();
   }
 
@@ -188,7 +187,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Future<void> _toggleFullscreen() async {
     if (!isDesktop) return;
     _fullscreen = !_fullscreen;
-    await windowManager.setFullScreen(_fullscreen);
+    // Plein écran de la fenêtre, fourni par media_kit (aucun module en plus).
+    if (_fullscreen) {
+      await defaultEnterNativeFullscreen();
+    } else {
+      await defaultExitNativeFullscreen();
+    }
     if (mounted) setState(() {});
   }
 
